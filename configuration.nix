@@ -8,8 +8,9 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./vim.nix
     ];
-
+ 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -74,7 +75,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget vim
+    wget vim_configurable
+    tmux
     firefox
     python
     gcc
@@ -96,7 +98,6 @@
     ranger
     irssi
     weechat
-    plex
     vlc
     scrot
     discord
@@ -123,17 +124,6 @@
     theme = "agnoster";
   };
 
-
-  environment.variables.EDITOR = "nvim";
-
-  nixpkgs.overlays = [
-    (self: super: {
-      neovim = super.neovim.override {
-        viAlias = true;
-        vimAlias = true;
-      };
-    })
-  ]; 
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
