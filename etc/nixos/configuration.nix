@@ -88,6 +88,8 @@
     emacs
     vscode
     zsh
+    fzf
+    fzf-zsh
     oh-my-zsh
     nix-zsh-completions
     git

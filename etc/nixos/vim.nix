@@ -22,7 +22,10 @@ in
           vim-nix 
           vim-lastplace 
           jsxpretty
-          polyglot
+          nerdtree
+          emmet-vim
+          airline
+          fzf-vim
         ];
         opt = [];
       };
@@ -40,10 +43,10 @@ in
 	set incsearch
 	 
 	set autoindent
-	set shiftwidth=4
+	set shiftwidth=2
 	set smartindent
 	set smarttab
-	set softtabstop=4
+	set softtabstop=2
 	set ruler	
 	 
 	set undolevels=1000
