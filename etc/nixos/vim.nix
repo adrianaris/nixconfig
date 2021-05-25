@@ -55,14 +55,58 @@ in
     }
   )
    (neovim.override {
-      vimAlias = true;
       configure = {
         packages.myPlugins = with pkgs.vimPlugins; {
-          start = [ vim-lastplace vim-nix ]; 
+          start = [ 
+            vim-nix 
+            vim-lastplace 
+            jsxpretty
+            nerdtree
+            emmet-vim
+            airline
+            fzf-vim
+          ]; 
           opt = [];
         };
         customRC = ''
-          set number 
+          set number	
+          set linebreak	
+          set showbreak=+++ 	
+          set textwidth=100
+          set showmatch	
+          set visualbell
+           
+          set hlsearch
+          set smartcase
+          set ignorecase
+          set incsearch
+           
+          set autoindent
+          set shiftwidth=2
+          set smartindent
+          set smarttab
+          set softtabstop=2
+          set ruler	
+           
+          set undolevels=1000
+          set backspace=indent,eol,start
+
+          tnoremap <Esc> <C-\><C-n>
+          tnoremap <A-h> <C-\><C-N><C-w>h
+          tnoremap <A-j> <C-\><C-N><C-w>j
+          tnoremap <A-k> <C-\><C-N><C-w>k
+          tnoremap <A-l> <C-\><C-N><C-w>l
+          tnoremap <A-+> <C-\><C-N><C-w>+
+          inoremap <A-h> <C-\><C-N><C-w>h
+          inoremap <A-j> <C-\><C-N><C-w>j
+          inoremap <A-k> <C-\><C-N><C-w>k
+          inoremap <A-l> <C-\><C-N><C-w>l
+          inoremap <A-+> <C-\><C-N><C-w>+
+          nnoremap <A-h> <C-w>h
+          nnoremap <A-j> <C-w>j
+          nnoremap <A-k> <C-w>k
+          nnoremap <A-l> <C-w>l
+          nnoremap <A-+> <C-\><C-N><C-w>+
         '';
       };
     }
