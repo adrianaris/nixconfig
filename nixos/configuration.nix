@@ -43,15 +43,28 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # services.xserver.videoDrivers = [ "nvidia" ];
+  # services.xserver.videoDrivers = [ "nouveau" ];
 
   # Enable the Plasma 5 Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-  
+  services.xserver = {
+    displayManager.sddm.enable = true;
+    desktopManager.plasma5.enable = true;
+  };
+
+  # # xfce
+  # services.xserver.desktopManager.xterm.enable = false;
+  # services.xserver.desktopManager.xfce.enable = true;
+  # services.xserver.displayManager.defaultSession = "xfce";
+
+  # # i3 window manager
+  # services.xserver.autorun = false;
+  # # services.xserver.desktopManager.default = "none";
+  # services.xserver.desktopManager.xterm.enable = false;
+  # services.xserver.displayManager.lightdm.enable = true;
+  # services.xserver.windowManager.i3.enable = true;
 
   # Configure keymap in X11
-  # services.xserver.layout = "us";
+  services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e";
 
   # Enable CUPS to print documents.
@@ -83,8 +96,11 @@
     python3
     gcc
     gtk3
+    postman
     nodejs
     neovim
+    curl
+    jq # format json output
     emacs
     vscode
     zsh
@@ -111,6 +127,9 @@
 #    (python38.withPackages(ps: with ps; [ numpy toolz]))
   ];
 
+  fonts.fonts = with pkgs; [
+    inconsolata
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -157,6 +176,7 @@
   # AUTO Upgrades
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = true;
+  system.autoUpgrade.channel = https://nixos.org/channels/nixos-21.05;
 
   nixpkgs.config.allowUnfree = true; 
 

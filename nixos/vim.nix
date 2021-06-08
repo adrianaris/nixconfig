@@ -10,6 +10,15 @@ let
       sha256 = "16d76jvfb1cq591i06fnmgzv0q16g89zz7cmvgvj24vap2wgkbp8";
     };
   };
+#  rest-nvim = pkgs.vimUtils.buildVimPlugin {
+#    name = "rest.nvim";
+#    src = pkgs.fetchFromGitHub {
+#      owner = "NTBBloodbath";
+#      repo = "rest.nvim";
+#      rev = "58a62d9372dcefde65d50914362414b3ef0f1595";
+#      sha256 = "1ksrknrvc8mgrpd0ksbmpzwnjbchp2n2rzmbav9a9138m5hxl5p4";
+#    };
+#  };
 in
 {
   environment.variables = { EDITOR = "vim"; };
@@ -65,16 +74,23 @@ in
             emmet-vim
             airline
             fzf-vim
+            coc-nvim coc-tsserver coc-json
+            # plenary-nvim
+            # rest-nvim
           ]; 
           opt = [];
         };
         customRC = ''
+          syntax on
           set number	
           set linebreak	
           set showbreak=+++ 	
           set textwidth=100
           set showmatch	
           set visualbell
+          set hidden
+          set cmdheight=2
+          set updatetime=300
            
           set hlsearch
           set smartcase
@@ -87,6 +103,8 @@ in
           set smarttab
           set softtabstop=2
           set ruler	
+
+          command Exec set splitright | vnew | set filetype=sh | read !sh #
            
           set undolevels=1000
           set backspace=indent,eol,start
@@ -107,6 +125,39 @@ in
           nnoremap <A-k> <C-w>k
           nnoremap <A-l> <C-w>l
           nnoremap <A-+> <C-\><C-N><C-w>+
+
+          inoremap <silent><expr> <TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
+          inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+          
+          function! s:check_back_space() abort
+            let col = col('.') - 1
+            return !col || getline('.')[col - 1] =~# '\s'
+          endfunction
+          
+          if has('nvim')
+            inoremap <silent><expr> <c-space> coc#refresh()
+          else
+            inoremap <silent><expr> <c-@> coc#refresh()
+          endif
+          
+          inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                                        \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+          nnoremap <silent> K :call <SID>show_documentation()<CR>
+          function! s:show_documentation()
+            if (index(['vim', 'help'], &filetype) >= 0)
+              execute 'h '.expand('<cword>')
+            elseif (coc#rpc#ready())
+              call CocActionAsync('doHover')
+            else
+              execute '!' . &keywordprg . " " . expand('<cword>')
+            endif
+          endfunction
+
+          autocmd CursorHold * silent call CocActionAsync('highlight')
         '';
       };
     }
