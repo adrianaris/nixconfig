@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 let
+  unstable = import <unstable> {};
+
   jsxpretty= pkgs.vimUtils.buildVimPlugin {
     name = "vim-jsx-pretty";
     src = pkgs.fetchFromGitHub {
@@ -21,8 +23,6 @@ let
 #  };
 in
 {
-  environment.variables = { EDITOR = "vim"; };
-
   environment.systemPackages = with pkgs; [
     (vim_configurable.customize {
       name = "mvi";
@@ -63,7 +63,9 @@ in
       '';
     }
   )
-   (neovim.override {
+   (unstable.neovim.override {
+     vimAlias = true;
+     viAlias = true;
       configure = {
         packages.myPlugins = with pkgs.vimPlugins; {
           start = [ 

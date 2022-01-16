@@ -16,6 +16,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # NTFS support
+  boot.supportedFilesystems = [ "ntfs" ];
+
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -26,8 +29,8 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.enp9s0f0.useDHCP = true;
-  networking.interfaces.wlp8s0.useDHCP = true;
+  networking.interfaces.enp6s0.useDHCP = true;
+  # networking.interfaces.wlp8s0.useDHCP = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -43,7 +46,7 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # services.xserver.videoDrivers = [ "nouveau" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   # Enable the Plasma 5 Desktop Environment.
   services.xserver = {
@@ -78,10 +81,10 @@
   services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.adi = {
+  users.users.adrianaris = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    home = "/home/adi";
+    home = "/home/adrianaris";
     description = "Adrian Serbanescu";
     extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
   };
@@ -89,7 +92,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget vim_configurable
+    wget 
     tmux
     firefox
     google-chrome
@@ -98,11 +101,9 @@
     gtk3
     postman
     nodejs
-    neovim
     curl
     jq # format json output
     emacs
-    vscode
     zsh
     fzf
     fzf-zsh
@@ -124,7 +125,8 @@
     discord
 
     # systemwide python packages
-#    (python38.withPackages(ps: with ps; [ numpy toolz]))
+    # (python38.withPackages(ps: with ps; [ numpy toolz]))
+    (import ./scripts/updateNixosConfig.nix)
   ];
 
   fonts.fonts = with pkgs; [
@@ -176,7 +178,7 @@
   # AUTO Upgrades
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = true;
-  system.autoUpgrade.channel = https://nixos.org/channels/nixos-21.05;
+  system.autoUpgrade.channel = https://nixos.org/channels/nixos-21.11;
 
   nixpkgs.config.allowUnfree = true; 
 
