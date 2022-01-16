@@ -76,7 +76,9 @@ in
             emmet-vim
             airline
             fzf-vim
-            coc-nvim coc-tsserver coc-json
+            coc-nvim coc-tsserver coc-json coc-pairs
+            coc-html coc-prettier coc-eslint coc-css
+            coc-jest
             # plenary-nvim
             # rest-nvim
           ]; 
