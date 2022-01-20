@@ -11,13 +11,13 @@ let
         name = "remote-ssh-edit";
         publisher = "ms-vscode-remote";
         version = "0.70.0";
-        sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
+        sha256 = "15xllbzmiwvqz4sa60qhj77p69zx4mjnvgiw419xqdsm75g30xkk";
       }
       {
         name = "rest-client";
         publisher = "humao";
         version = "0.24.6";
-        sha256 = "1hj294nsmlzvhbvwv4wyf7mgfw64q4pgkjzzgyjfc26pzyaxb4bn";
+        sha256 = "196pm7gv0488bpv1lklh8hpwmdqc4yimz389gad6nsna368m4m43";
       }
       {
         name = "vscode-typescript-next";

@@ -78,7 +78,7 @@ in
             fzf-vim
             coc-nvim coc-tsserver coc-json coc-pairs
             coc-html coc-prettier coc-eslint coc-css
-            coc-jest
+            coc-jest coc-git
             # plenary-nvim
             # rest-nvim
           ]; 
@@ -95,12 +95,15 @@ in
           set hidden
           set cmdheight=2
           set updatetime=300
+
+          set mouse=a
            
           set hlsearch
           set smartcase
           set ignorecase
           set incsearch
            
+          set expandtab
           set autoindent
           set shiftwidth=2
           set smartindent
@@ -129,6 +132,8 @@ in
           nnoremap <A-k> <C-w>k
           nnoremap <A-l> <C-w>l
           nnoremap <A-+> <C-\><C-N><C-w>+
+	  
+	  let NERDTreeShowHidden=1
 
           inoremap <silent><expr> <TAB>
             \ pumvisible() ? "\<C-n>" :

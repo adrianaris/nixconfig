@@ -50,9 +50,19 @@
 
   # Enable the Plasma 5 Desktop Environment.
   services.xserver = {
-    displayManager.sddm.enable = true;
+    dpi = 144;
+    displayManager = {
+      sddm.enable = true;
+    };
     desktopManager.plasma5.enable = true;
   };
+  
+  environment.variables = {
+    GDK_SCALE="2";
+    GDK_DPI_SCALE="0.5";
+  };
+
+  hardware.video.hidpi.enable = true;
 
   # # xfce
   # services.xserver.desktopManager.xterm.enable = false;
@@ -108,6 +118,7 @@
     fzf
     fzf-zsh
     oh-my-zsh
+    silver-searcher
     nix-zsh-completions
     git
     sqlite
