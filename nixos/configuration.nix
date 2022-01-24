@@ -134,6 +134,12 @@
     vlc
     scrot
     discord
+    jdk17
+    maven
+    spring-boot
+    spring-boot-cli
+    tomcat9
+    idea.idea-community
 
     # systemwide python packages
     # (python38.withPackages(ps: with ps; [ numpy toolz]))
