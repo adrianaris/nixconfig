@@ -11,6 +11,9 @@
       ./vim.nix
       ./vscode.nix
     ];
+  
+  # Default editor
+  programs.neovim.defaultEditor = true;
  
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -29,7 +32,7 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.enp6s0.useDHCP = true;
+  networking.interfaces.enp7s0.useDHCP = true;
   # networking.interfaces.wlp8s0.useDHCP = true;
 
   # Configure network proxy if necessary
@@ -140,6 +143,8 @@
     spring-boot-cli
     tomcat9
     idea.idea-community
+    gzip
+    unzip
 
     # systemwide python packages
     # (python38.withPackages(ps: with ps; [ numpy toolz]))
@@ -170,6 +175,8 @@
     plugins = [ "git" "python" "man" ];
     theme = "agnoster";
   };
+
+  programs.java.enable = true;
 
   # List services that you want to enable:
 
