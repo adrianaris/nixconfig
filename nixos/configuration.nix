@@ -113,7 +113,7 @@
     gcc
     gtk3
     postman
-    nodejs
+    nodejs-16_x
     curl
     jq # format json output
     emacs
