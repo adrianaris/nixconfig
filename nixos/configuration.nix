@@ -117,7 +117,7 @@
     fzf
     fzf-zsh
     oh-my-zsh
-    silver-searcher
+    silver-searcher # ag. needed by vim fzf
     nix-zsh-completions
     git
     sqlite
@@ -143,6 +143,7 @@
     unzip
     qbittorrent
     zoom-us
+    xclip
 
     # systemwide python packages
     # (python38.withPackages(ps: with ps; [ numpy toolz]))
