@@ -1,6 +1,6 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+#  in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
 
@@ -8,11 +8,9 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./vim.nix
-      ./vscode.nix
+#      ./vim.nix
+#      ./vscode.nix
     ];
-
-  hardware.opengl.enable = true;
   
   # Default editor
   programs.neovim.defaultEditor = true;
@@ -25,7 +23,7 @@
   boot.supportedFilesystems = [ "ntfs" ];
 
   networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
@@ -51,15 +49,21 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  services.xserver.videoDrivers = [ "mesa" ];
+  # services.xserver.videoDrivers = [ "nvidia" ];
 
   # Enable the Plasma 5 Desktop Environment.
   services.xserver = {
+    dpi = 144;
     displayManager = {
       sddm.enable = true;
     };
     desktopManager.plasma5.enable = true;
   };
+  
+  # environment.variables = {
+  #   GDK_SCALE="2";
+  #   GDK_DPI_SCALE="0.5";
+  # };
 
   hardware.video.hidpi.enable = true;
 
@@ -109,7 +113,7 @@
     gcc
     gtk3
     postman
-    nodejs-16_x
+    nodejs
     curl
     jq # format json output
     emacs
@@ -141,11 +145,10 @@
     idea.idea-community
     gzip
     unzip
-    qbittorrent
-    zoom-us
 
     # systemwide python packages
     # (python38.withPackages(ps: with ps; [ numpy toolz]))
+
     (import ./scripts/updateNixosConfig.nix)
   ];
 
@@ -186,7 +189,7 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   networking.firewall.enable = false;
-  networking.networkmanager.enable = true;
+  # networking.networkmanager.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
