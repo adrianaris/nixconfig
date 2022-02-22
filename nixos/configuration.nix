@@ -111,6 +111,7 @@
     google-chrome
     python3
     gcc
+    glibc
     gtk3
     postman
     nodejs-16_x
@@ -145,9 +146,12 @@
     idea.idea-community
     gzip
     unzip
+    zoom-us
+    spotify
 
     # systemwide python packages
     # (python38.withPackages(ps: with ps; [ numpy toolz]))
+
     (import ./scripts/updateNixosConfig.nix)
   ];
 
