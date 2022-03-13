@@ -97,6 +97,8 @@ in
           set updatetime=300
 
           set mouse=a
+
+          set wildchar=<TAB> wildmenu wildmode=full
            
           set hlsearch
           set smartcase

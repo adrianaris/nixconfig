@@ -6,6 +6,7 @@ writeShellScriptBin "updateNixosConfig.sh" ''
   cp -r /etc/nixos/ ~/nixconfig
   rm ~/nixconfig/nixos/hardware-configuration.nix
   cd ~/nixconfig
+  git checkout dellConfig
   git add .
   git commit -m 'called updateNixosConfig script'
   git push origin dellConfig

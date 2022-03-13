@@ -50,6 +50,9 @@
   
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+  services.xrdp.enable = true;
+  services.xrdp.defaultWindowManager = "startplasma-x11";
+  networking.firewall.allowedTCPPorts = [ 3389 ];
 
   services.xserver.videoDrivers = [ "mesa" ];
 
@@ -144,6 +147,7 @@
     qbittorrent
     zoom-us
     xclip
+    remmina
 
     # systemwide python packages
     # (python38.withPackages(ps: with ps; [ numpy toolz]))
@@ -181,6 +185,7 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  services.teamviewer.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
