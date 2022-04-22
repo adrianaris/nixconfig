@@ -48,6 +48,9 @@
   
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+  services.xrdp.enable = true;
+  services.xrdp.defaultWindowManager = "startplasma-x11";
+  networking.firewall.allowedTCPPorts = [ 3389 ];
 
   services.xserver.videoDrivers = [ "nvidia" ];
 
@@ -126,6 +129,7 @@
     nix-zsh-completions
     git
     sqlite
+    heroku
     docker
     libreoffice
     okular
@@ -148,6 +152,48 @@
     unzip
     zoom-us
     spotify
+    qbittorrent
+    zip
+    teamviewer
+    xclip
+
+    cypress
+    # for cypress
+    xorg.libXScrnSaver
+    xorg.libXdamage
+    xorg.libX11
+    xorg.libxcb
+    xorg.libXcomposite
+    xorg.libXi
+    xorg.libXext
+    xorg.libXfixes
+    xorg.libXcursor
+    xorg.libXrender
+    xorg.libXrandr
+    mesa
+    cups
+    expat
+    ffmpeg
+    libdrm
+    libxkbcommon
+    at_spi2_atk
+    at_spi2_core
+    dbus
+    gdk_pixbuf
+    gtk3
+    cairo
+    pango
+    xorg.xauth
+    glib
+    nspr
+    atk
+    nss
+    gtk2
+    alsaLib
+    gnome2.GConf
+    unzip
+    (lib.getLib udev)
+    # ^ for cypress
 
     # systemwide python packages
     # (python38.withPackages(ps: with ps; [ numpy toolz]))

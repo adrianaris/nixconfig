@@ -111,6 +111,8 @@ in
           set softtabstop=2
           set ruler	
 
+          set clipboard=unnamedplus
+
           command Exec set splitright | vnew | set filetype=sh | read !sh #
            
           set undolevels=1000
@@ -132,7 +134,15 @@ in
           nnoremap <A-k> <C-w>k
           nnoremap <A-l> <C-w>l
           nnoremap <A-+> <C-\><C-N><C-w>+
-	  
+
+	 " Use clipboard as default register
+          if system('uname -s') == "Darwin\n"
+            set clipboard=unnamed "OSX
+          else
+            set clipboard=unnamedplus "Linux
+          endif 
+
+
 	  let NERDTreeShowHidden=1
 
           inoremap <silent><expr> <TAB>
