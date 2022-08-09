@@ -3,15 +3,15 @@
 let
   unstable = import <unstable> {};
 
-  jsxpretty= pkgs.vimUtils.buildVimPlugin {
-    name = "vim-jsx-pretty";
-    src = pkgs.fetchFromGitHub {
-      owner = "MaxMEllon";
-      repo = "vim-jsx-pretty";
-      rev = "6989f1663cc03d7da72b5ef1c03f87e6ddb70b41";
-      sha256 = "16d76jvfb1cq591i06fnmgzv0q16g89zz7cmvgvj24vap2wgkbp8";
-    };
-  };
+#  jsxpretty= pkgs.vimUtils.buildVimPlugin {
+#    name = "vim-jsx-pretty";
+#    src = pkgs.fetchFromGitHub {
+#      owner = "MaxMEllon";
+#      repo = "vim-jsx-pretty";
+#      rev = "6989f1663cc03d7da72b5ef1c03f87e6ddb70b41";
+#      sha256 = "16d76jvfb1cq591i06fnmgzv0q16g89zz7cmvgvj24vap2wgkbp8";
+#    };
+#  };
 #  rest-nvim = pkgs.vimUtils.buildVimPlugin {
 #    name = "rest.nvim";
 #    src = pkgs.fetchFromGitHub {
@@ -30,7 +30,6 @@ in
         start = [ 
           vim-nix 
           vim-lastplace 
-          jsxpretty
           nerdtree
           emmet-vim
           airline
@@ -71,7 +70,6 @@ in
           start = [ 
             vim-nix 
             vim-lastplace 
-            jsxpretty
             nerdtree
             emmet-vim
             airline

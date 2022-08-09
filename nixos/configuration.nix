@@ -104,12 +104,22 @@
     description = "Adrian Serbanescu";
     extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
   };
+  users.users.remotessh = {
+    isNormalUser = true;
+    shell = pkgs.zsh;
+    home = "/home/remotessh";
+    description = "pair programming";
+    openssh.authorizedKeys.keys = ["ssh-ed25519AAAAC3NzaC1lZDI1NTE5AAAAIFJRqDBfU5qgMNqjO8JHyOfOy5k28ngKNQoE8/xHMfNM remotessh@nixos"];
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    gnumake
     wget 
     tmux
+    sshfs
+    neovim-remote
     firefox
     google-chrome
     python3
@@ -142,12 +152,12 @@
     vlc
     scrot
     discord
-    jdk17
+    slack
     maven
     spring-boot
     spring-boot-cli
     tomcat9
-    idea.idea-community
+    (jetbrains.idea-community.override { jdk = pkgs.jetbrains.jdk; }) 
     gzip
     unzip
     zoom-us
@@ -156,44 +166,6 @@
     zip
     teamviewer
     xclip
-
-    cypress
-    # for cypress
-    xorg.libXScrnSaver
-    xorg.libXdamage
-    xorg.libX11
-    xorg.libxcb
-    xorg.libXcomposite
-    xorg.libXi
-    xorg.libXext
-    xorg.libXfixes
-    xorg.libXcursor
-    xorg.libXrender
-    xorg.libXrandr
-    mesa
-    cups
-    expat
-    ffmpeg
-    libdrm
-    libxkbcommon
-    at_spi2_atk
-    at_spi2_core
-    dbus
-    gdk_pixbuf
-    gtk3
-    cairo
-    pango
-    xorg.xauth
-    glib
-    nspr
-    atk
-    nss
-    gtk2
-    alsaLib
-    gnome2.GConf
-    unzip
-    (lib.getLib udev)
-    # ^ for cypress
 
     # systemwide python packages
     # (python38.withPackages(ps: with ps; [ numpy toolz]))
@@ -211,6 +183,11 @@
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
+  };
+
+  services.plex = {
+    enable = true;
+    openFirewall = true;
   };
 
   # zsh default
@@ -252,7 +229,7 @@
   # AUTO Upgrades
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = true;
-  system.autoUpgrade.channel = https://nixos.org/channels/nixos-21.11;
+  system.autoUpgrade.channel = https://channels.nixos.org/nixos-unstable;
 
   nixpkgs.config.allowUnfree = true; 
 
