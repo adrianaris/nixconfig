@@ -18,6 +18,7 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
   # NTFS support
   boot.supportedFilesystems = [ "ntfs" ];
@@ -26,18 +27,21 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Set your time zone.
-  time.timeZone = "Europe/Amsterdam";
+  time.timeZone = "Europe/Brussels";
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
-  networking.useDHCP = false;
-  networking.interfaces.enp7s0.useDHCP = true;
+  # networking.useDHCP = false;
+  # networking.interfaces.enp7s0.useDHCP = true;
   # networking.interfaces.wlp8s0.useDHCP = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  # Enable networking
+  networking.networkmanager.enable = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -49,7 +53,6 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xrdp.enable = true;
-  services.xrdp.defaultWindowManager = "startplasma-x11";
   networking.firewall.allowedTCPPorts = [ 3389 ];
 
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -63,11 +66,6 @@
     desktopManager.plasma5.enable = true;
   };
   
-  environment.variables = {
-    GDK_SCALE="2";
-    GDK_DPI_SCALE="0.5";
-  };
-
   hardware.video.hidpi.enable = true;
 
   # # xfce
@@ -87,14 +85,27 @@
   # services.xserver.xkbOptions = "eurosign:e";
 
   # Enable CUPS to print documents.
-  # services.printing.enable = true;
+  services.printing.enable = true;
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.adrianaris = {
@@ -111,6 +122,10 @@
     description = "pair programming";
     openssh.authorizedKeys.keys = ["ssh-ed25519AAAAC3NzaC1lZDI1NTE5AAAAIFJRqDBfU5qgMNqjO8JHyOfOy5k28ngKNQoE8/xHMfNM remotessh@nixos"];
   };
+
+  # Enable automatic login for the user.
+  services.xserver.displayManager.autoLogin.enable = true;
+  services.xserver.displayManager.autoLogin.user = "adrianaris";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -171,6 +186,7 @@
     # (python38.withPackages(ps: with ps; [ numpy toolz]))
 
     (import ./scripts/updateNixosConfig.nix)
+    (import ./scripts/adjustDisplay.nix)
   ];
 
   fonts.fonts = with pkgs; [
@@ -183,11 +199,6 @@
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
-  };
-
-  services.plex = {
-    enable = true;
-    openFirewall = true;
   };
 
   # zsh default
@@ -224,7 +235,7 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "20.09"; # Did you read the comment?
+  system.stateVersion = "22.11"; # Did you read the comment?
 
   # AUTO Upgrades
   system.autoUpgrade.enable = true;
