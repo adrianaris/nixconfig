@@ -57,28 +57,55 @@
 
   services.xserver.videoDrivers = [ "nvidia" ];
 
-  # Enable the Plasma 5 Desktop Environment.
-  services.xserver = {
-    dpi = 144;
-    displayManager = {
-      sddm.enable = true;
-    };
-    desktopManager.plasma5.enable = true;
-  };
-  
-  hardware.video.hidpi.enable = true;
+  # Enable Plasma
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.desktopManager.plasma5.excludePackages = with pkgs.libsForQt5; [
+    elisa
+    gwenview
+    oxygen
+    khelpcenter
+    plasma-browser-integration
+    print-manager
+    kwallet
+  ];
 
+  # Enable the GNOME Desktop Environment.
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
+  
   # # xfce
   # services.xserver.desktopManager.xterm.enable = false;
   # services.xserver.desktopManager.xfce.enable = true;
   # services.xserver.displayManager.defaultSession = "xfce";
+  # services.xserver.windowManager.i3 = {
+  #   enable = true;
+  #   extraPackages = with pkgs; [
+  #     dmenu
+  #     i3status
+  #     i3lock
+  #   ];
+  # };
 
   # # i3 window manager
-  # services.xserver.autorun = false;
-  # # services.xserver.desktopManager.default = "none";
-  # services.xserver.desktopManager.xterm.enable = false;
-  # services.xserver.displayManager.lightdm.enable = true;
-  # services.xserver.windowManager.i3.enable = true;
+  # services.xserver = {
+  #   desktopManager = {
+  #     xterm.enable = false;
+  #   };
+
+  #   displayManager = {
+  #     defaultSession = "none+i3";
+  #   };
+
+  #   windowManager.i3 = {
+  #     enable = true;
+  #     extraPackages = with pkgs; [
+  #       dmenu
+  #       i3status
+  #       i3lock
+  #     ];
+  #   };
+  # };
 
   # Configure keymap in X11
   services.xserver.layout = "us";
@@ -113,8 +140,9 @@
     shell = pkgs.zsh;
     home = "/home/adrianaris";
     description = "Adrian Serbanescu";
-    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "networkmanager" "docker" ]; # Enable ‘sudo’ for the user.
   };
+
   users.users.remotessh = {
     isNormalUser = true;
     shell = pkgs.zsh;
@@ -155,7 +183,6 @@
     git
     sqlite
     heroku
-    docker
     libreoffice
     okular
     qimgv
@@ -244,4 +271,15 @@
 
   nixpkgs.config.allowUnfree = true; 
 
+  hardware.video.hidpi.enable = true;
+  services.xserver.dpi = 144;
+
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = true;
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
+  };
 }
