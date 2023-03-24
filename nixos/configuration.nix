@@ -160,6 +160,7 @@
   environment.systemPackages = with pkgs; [
     gnumake
     wget 
+    alacritty
     tmux
     sshfs
     neovim-remote
@@ -170,7 +171,7 @@
     glibc
     gtk3
     postman
-    nodejs-16_x
+    nodejs-19_x
     curl
     jq # format json output
     emacs
@@ -182,13 +183,12 @@
     nix-zsh-completions
     git
     sqlite
-    heroku
     libreoffice
     okular
     qimgv
     obs-studio
     neofetch
-    ranger
+    nnn
     irssi
     weechat
     vlc
@@ -202,7 +202,6 @@
     (jetbrains.idea-community.override { jdk = pkgs.jetbrains.jdk; }) 
     gzip
     unzip
-    zoom-us
     spotify
     qbittorrent
     zip

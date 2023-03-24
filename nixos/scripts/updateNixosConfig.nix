@@ -8,5 +8,5 @@ writeShellScriptBin "updateNixosConfig.sh" ''
   cd ~/nixconfig
   git add .
   git commit -m 'called updateNixosConfig script'
-  git push origin main
+  git push origin awesome
 ''
