@@ -20,6 +20,9 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
+  # use latest kernel
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   # NTFS support
   boot.supportedFilesystems = [ "ntfs" ];
 
@@ -41,7 +44,10 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
-  networking.networkmanager.enable = true;
+  networking = {
+    networkmanager.enable = true;
+    firewall.allowedTCPPorts = [ 3389 ];
+  };
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -51,65 +57,39 @@
   };
   
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  services = {
+    xserver = {
+      enable = true;
+      videoDrivers = [ "nvidia" ];
+
+      # Enable automatic login for the user.
+      displayManager = {
+        autoLogin.enable = true;
+        autoLogin.user = "adrianaris";
+        sddm.enable = true;
+        defaultSession = "none+awesome";
+      };
+
+      # awesomewm
+
+      windowManager.awesome = {
+        enable = true;
+        package = pkgs.awesome-git;
+      };
+
+      # Configure keymap in X11
+      layout = "us";
+    };
+
+      # xkbOptions = "eurosign:e";
+    avahi = {
+      enable = true;
+      nssmdns = true;
+    };
+  };
+
+
   services.xrdp.enable = true;
-  networking.firewall.allowedTCPPorts = [ 3389 ];
-
-  services.xserver.videoDrivers = [ "nvidia" ];
-
-  # Enable Plasma
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.desktopManager.plasma5.excludePackages = with pkgs.libsForQt5; [
-    elisa
-    gwenview
-    oxygen
-    khelpcenter
-    plasma-browser-integration
-    print-manager
-    kwallet
-  ];
-
-  # Enable the GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
-  
-  # # xfce
-  # services.xserver.desktopManager.xterm.enable = false;
-  # services.xserver.desktopManager.xfce.enable = true;
-  # services.xserver.displayManager.defaultSession = "xfce";
-  # services.xserver.windowManager.i3 = {
-  #   enable = true;
-  #   extraPackages = with pkgs; [
-  #     dmenu
-  #     i3status
-  #     i3lock
-  #   ];
-  # };
-
-  # # i3 window manager
-  # services.xserver = {
-  #   desktopManager = {
-  #     xterm.enable = false;
-  #   };
-
-  #   displayManager = {
-  #     defaultSession = "none+i3";
-  #   };
-
-  #   windowManager.i3 = {
-  #     enable = true;
-  #     extraPackages = with pkgs; [
-  #       dmenu
-  #       i3status
-  #       i3lock
-  #     ];
-  #   };
-  # };
-
-  # Configure keymap in X11
-  services.xserver.layout = "us";
-  # services.xserver.xkbOptions = "eurosign:e";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -140,7 +120,7 @@
     shell = pkgs.zsh;
     home = "/home/adrianaris";
     description = "Adrian Serbanescu";
-    extraGroups = [ "wheel" "networkmanager" "docker" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "networkmanager" "docker" ];
   };
 
   users.users.remotessh = {
@@ -151,13 +131,14 @@
     openssh.authorizedKeys.keys = ["ssh-ed25519AAAAC3NzaC1lZDI1NTE5AAAAIFJRqDBfU5qgMNqjO8JHyOfOy5k28ngKNQoE8/xHMfNM remotessh@nixos"];
   };
 
-  # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "adrianaris";
+  environment.binsh = "${pkgs.dash}/bin/dash";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    home-manager
+    (import ./scripts/adjustDisplay.nix)
+    (import ./scripts/updateNixosConfig.nix)
     gnumake
     wget 
     alacritty
@@ -175,12 +156,9 @@
     curl
     jq # format json output
     emacs
-    zsh
     fzf
     fzf-zsh
-    oh-my-zsh
     silver-searcher
-    nix-zsh-completions
     git
     sqlite
     libreoffice
@@ -190,57 +168,86 @@
     neofetch
     nnn
     irssi
-    weechat
     vlc
     scrot
     discord
     slack
     maven
-    spring-boot
-    spring-boot-cli
-    tomcat9
-    (jetbrains.idea-community.override { jdk = pkgs.jetbrains.jdk; }) 
     gzip
     unzip
     spotify
     qbittorrent
     zip
-    teamviewer
     xclip
 
     # systemwide python packages
     # (python38.withPackages(ps: with ps; [ numpy toolz]))
-
-    (import ./scripts/updateNixosConfig.nix)
-    (import ./scripts/adjustDisplay.nix)
   ];
+
+  nix = {
+    package = pkgs.nixUnstable;
+    settings.trusted-users = [ "root" "adrianaris" ];
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
 
   fonts.fonts = with pkgs; [
+    powerline-fonts
     inconsolata
+    cascadia-code
+    ibm-plex
+    (nerdfonts.override { fonts = [ "CascadiaCode" "FiraCode" "Iosevka" "JetBrainsMono" ]; })
+    noto-fonts-emoji-blob-bin
   ];
+
+  fonts.fontconfig = {
+    defaultFonts = {
+      monospace = [ "Cascadia Code" ];
+      sansSerif = [ "Cascadia Code" ];
+      serif = [ "Cascadia Code" ];
+      emoji = [ "Blobmoji" ];
+    };
+  };
+
+  environment.sessionVariables = rec {
+    XDG_CACHE_HOME = "\${HOME}/.cache";
+    XDG_CONFIG_HOME = "\${HOME}/.config";
+    XDG_BIN_HOME = "\${HOME}/.local/bin";
+    XDG_DATA_HOME = "\${HOME}/.local/share";
+
+    PATH = [
+      "\${HOME}/.bin"
+      "\${XDG_BIN_HOME}"
+      "\${HOME}/.node_modules"
+    ];
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
+  programs = {
+    mtr.enable = true;
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
 
-  # zsh default
-  programs.zsh.enable = true;
-  programs.zsh.ohMyZsh.customPkgs = [
-    pkgs.nix-zsh-completions
-    # and even more...
-  ];
-  # oh-my-zsh config
-  programs.zsh.ohMyZsh = {
-    enable = true;
-    plugins = [ "git" "python" "man" ];
-    theme = "agnoster";
-  };
+    # zsh default
+    zsh.enable = true;
+    zsh.ohMyZsh.customPkgs = [
+      pkgs.nix-zsh-completions
+      # and even more...
+    ];
 
-  programs.java.enable = true;
+    # oh-my-zsh config
+    zsh.ohMyZsh = {
+      enable = true;
+      plugins = [ "git" "python" "man" ];
+      theme = "agnoster";
+    };
+
+    java.enable = true;
+  };
 
   # List services that you want to enable:
 
@@ -261,16 +268,15 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.11"; # Did you read the comment?
+  system.stateVersion = "23.05"; # Did you read the comment?
 
   # AUTO Upgrades
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.allowReboot = true;
-  system.autoUpgrade.channel = https://channels.nixos.org/nixos-unstable;
+  # system.autoUpgrade.enable = true;
+  # system.autoUpgrade.allowReboot = true;
+  # system.autoUpgrade.channel = https://channels.nixos.org/nixos-unstable;
 
   nixpkgs.config.allowUnfree = true; 
 
-  hardware.video.hidpi.enable = true;
   services.xserver.dpi = 144;
 
   virtualisation.docker = {

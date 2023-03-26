@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  unstable = import <unstable> {};
+#  unstable = import <unstable> {};
 
 #  jsxpretty= pkgs.vimUtils.buildVimPlugin {
 #    name = "vim-jsx-pretty";
@@ -62,7 +62,7 @@ in
       '';
     }
   )
-   (unstable.neovim.override {
+   (neovim.override {
      vimAlias = true;
      viAlias = true;
       configure = {
