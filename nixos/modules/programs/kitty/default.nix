@@ -16,7 +16,7 @@ in
       enable = true;
       font = {
         name = "Inconsolata for Powerline";
-        size = 13;
+        size = 15;
       };
       settings = {
         cursor_shape = "underline";

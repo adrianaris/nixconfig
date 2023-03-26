@@ -139,18 +139,17 @@
     home-manager
     (import ./scripts/adjustDisplay.nix)
     (import ./scripts/updateNixosConfig.nix)
+    autorandr
     gnumake
     wget 
     alacritty
     tmux
     sshfs
     neovim-remote
-    firefox
     google-chrome
     python3
     gcc
     glibc
-    gtk3
     postman
     nodejs-19_x
     curl
@@ -161,7 +160,6 @@
     silver-searcher
     git
     sqlite
-    libreoffice
     okular
     qimgv
     obs-studio
@@ -171,8 +169,6 @@
     vlc
     scrot
     discord
-    slack
-    maven
     gzip
     unzip
     spotify
