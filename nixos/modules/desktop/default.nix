@@ -5,6 +5,7 @@
     ./picom.nix
     ./gtk.nix
     ./awesome.nix
+    ./autorandr.nix
   ];
   home.packages = with pkgs; [
     tint2

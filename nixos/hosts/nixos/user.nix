@@ -22,6 +22,7 @@
         picom.enable = true;
         dunst.enable = true;
         awesome.enable = true;
+        autorandr.enable = true;
       };
       programs = {
         kitty.enable = true;

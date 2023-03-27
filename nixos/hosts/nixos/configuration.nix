@@ -139,7 +139,6 @@
     home-manager
     (import ./scripts/adjustDisplay.nix)
     (import ./scripts/updateNixosConfig.nix)
-    autorandr
     gnumake
     wget 
     alacritty
