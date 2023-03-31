@@ -14,6 +14,7 @@
         "adrianaris" = {
           config = {
             HDMI-0 = {
+              dpi = 144;
               enable = true;
               primary = true;
               mode = "3840x2160";
@@ -21,6 +22,7 @@
               position = "2688x0";
             };
             DVI-D-0 = {
+              dpi = 100;
               enable = true;
               mode = "1920x1200";
               rate = "60.00";
@@ -37,6 +39,26 @@
           };
         };
       };
+
+      hooks = {
+        postswitch = {
+          "change-dpi" = ''
+            case "$AUTORANDR_CURRENT_PROFILLE" in 
+            default)
+            DPI=144
+            ;;
+            *)
+            echo "Unknown profile: $AUTORANDR_CURRENT_PROFILLE"
+            exit 1
+            esac
+
+            echo "XFt.dpi: $DPI" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+          '';
+        };
+      };
+    };
+    services.autorandr = {
+      enable = true;
     };
   };
 }

@@ -55,12 +55,13 @@
     font = "Lat2-Terminus16";
     keyMap = "us";
   };
-  
+
   # Enable the X11 windowing system.
   services = {
     xserver = {
       enable = true;
       videoDrivers = [ "nvidia" ];
+      dpi = 144;
 
       # Enable automatic login for the user.
       displayManager = {
@@ -104,11 +105,19 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
+  };
+
+  systemd.user.services = {
+    pipewire.wantedBy = [ "default.target" ];
+    pipewire-pulse = {
+      path = [ pkgs.pulseaudio ];
+      wantedBy = [ "default.target" ];
+    };
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -271,8 +280,6 @@
   # system.autoUpgrade.channel = https://channels.nixos.org/nixos-unstable;
 
   nixpkgs.config.allowUnfree = true; 
-
-  services.xserver.dpi = 144;
 
   virtualisation.docker = {
     enable = true;
