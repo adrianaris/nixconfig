@@ -17,3 +17,4 @@ in
     home.sessionPath = [ "$CARGO_HOME/bin" ];
   };
 }
+

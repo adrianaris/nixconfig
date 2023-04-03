@@ -148,6 +148,8 @@
     home-manager
     (import ./scripts/adjustDisplay.nix)
     (import ./scripts/updateNixosConfig.nix)
+    (import ./scripts/updateCodeExtensions.nix)
+
     gnumake
     wget 
     alacritty
@@ -173,7 +175,7 @@
     obs-studio
     neofetch
     nnn
-    irssi
+    weechat
     vlc
     scrot
     discord
@@ -183,6 +185,7 @@
     qbittorrent
     zip
     xclip
+    magic-wormhole
 
     # systemwide python packages
     # (python38.withPackages(ps: with ps; [ numpy toolz]))
