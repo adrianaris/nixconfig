@@ -16,8 +16,8 @@ let
     {
       name = "vscode-typescript-next";
       publisher = "ms-vscode";
-      version = "5.1.20230331";
-      sha256 = "0f8wq7bv5p2cz4pca297fj96an2r0b3jcnyvmqjsj96vjv5hgcal";
+      version = "5.1.20230418";
+      sha256 = "1pk5caf5q3nhg79xyr5yvxi50prpi7ninay54z9ipj05csldm6fr";
     }
     {
       name = "rest-client";

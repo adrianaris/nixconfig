@@ -87,13 +87,18 @@
       enable = true;
       nssmdns = true;
     };
+
+    xrdp.enable = true;
+
+    # Enable CUPS to print documents.
+    printing.enable = true;
+
+    plex = {
+      enable = true;
+      openFirewall = true;
+    };
   };
 
-
-  services.xrdp.enable = true;
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
 
   # Enable sound.
   sound.enable = true;
@@ -129,7 +134,7 @@
     shell = pkgs.zsh;
     home = "/home/adrianaris";
     description = "Adrian Serbanescu";
-    extraGroups = [ "wheel" "networkmanager" "docker" ];
+    extraGroups = [ "wheel" "networkmanager" "docker" "plex" ];
   };
 
   users.users.remotessh = {
@@ -161,7 +166,6 @@
     gcc
     glibc
     postman
-    nodejs-19_x
     curl
     jq # format json output
     emacs
@@ -186,6 +190,7 @@
     zip
     xclip
     magic-wormhole
+    zathura
 
     # systemwide python packages
     # (python38.withPackages(ps: with ps; [ numpy toolz]))
@@ -215,6 +220,16 @@
       serif = [ "Cascadia Code" ];
       emoji = [ "Blobmoji" ];
     };
+  };
+
+  environment.variables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+
+    # nnn config
+    NNN_FIFO = "/tmp/nnn.fifo";
+    NNN_PLUG = "p:preview-tui;s:suedit";
+
   };
 
   environment.sessionVariables = rec {
@@ -283,6 +298,8 @@
   # system.autoUpgrade.channel = https://channels.nixos.org/nixos-unstable;
 
   nixpkgs.config.allowUnfree = true; 
+
+  services.tor.enable = true;
 
   virtualisation.docker = {
     enable = true;
