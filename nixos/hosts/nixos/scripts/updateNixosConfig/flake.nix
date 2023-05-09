@@ -15,6 +15,7 @@
         cd ~/nixconfig
         git add .
         git commit -m 'called updateNixosConfig script'
+        git checkout awesome
         git push origin awesome
       '';
   };

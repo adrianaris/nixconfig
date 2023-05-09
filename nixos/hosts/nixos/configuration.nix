@@ -9,7 +9,6 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./vim.nix
-      ./vscode.nix
     ];
   
   # Default editor
@@ -134,7 +133,7 @@
     shell = pkgs.zsh;
     home = "/home/adrianaris";
     description = "Adrian Serbanescu";
-    extraGroups = [ "wheel" "networkmanager" "docker" "plex" ];
+    extraGroups = [ "wheel" "networkmanager" "docker" "plex"  "libvirtd" ];
   };
 
   users.users.remotessh = {
@@ -230,6 +229,8 @@
     NNN_FIFO = "/tmp/nnn.fifo";
     NNN_PLUG = "p:preview-tui;s:suedit";
 
+    # nix path-info doest work on unfree without
+    NIXPKGS_ALLOW_UNFREE="1";
   };
 
   environment.sessionVariables = rec {
@@ -301,12 +302,15 @@
 
   services.tor.enable = true;
 
-  virtualisation.docker = {
-    enable = true;
-    enableOnBoot = true;
-    rootless = {
+  virtualisation = {
+    libvirtd.enable = true;
+    docker = {
       enable = true;
-      setSocketVariable = true;
+      enableOnBoot = true;
+      rootless = {
+        enable = true;
+        setSocketVariable = true;
+      };
     };
   };
 }

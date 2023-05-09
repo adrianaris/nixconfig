@@ -2,6 +2,7 @@
 {
   imports = [
     ../../modules/programs
+    ../../modules/editors/vscode.nix
     ../../modules/desktop
     ../../modules/dev/clojure.nix
     ../../modules/dev/lua.nix
@@ -19,8 +20,8 @@
     };
     modules = {
       desktop = {
-        picom.enable = true;
-        dunst.enable = true;
+        # picom.enable = true;
+        # dunst.enable = true;
         awesome.enable = true;
         autorandr.enable = true;
       };
@@ -28,13 +29,16 @@
         kitty.enable = true;
       };
       dev = {
-        clojure.enable = true;
+        # clojure.enable = true;
         # lisp.enable = false;
         lua.enable = true;
         nix.enable = true;
         node.enable = true;
         python.enable = true;
-        rust.enable = false;
+        # rust.enable = false;
+      };
+      editors = {
+        vscode.enable = true;
       };
     };
   };
